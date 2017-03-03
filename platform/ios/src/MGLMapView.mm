@@ -55,6 +55,7 @@
 #import "MGLStyle_Private.h"
 #import "MGLStyleLayer_Private.h"
 #import "MGLMapboxEvents.h"
+#import "MGLSDKUpdateChecker.h"
 #import "MGLCompactCalloutView.h"
 #import "MGLAnnotationContainerView.h"
 #import "MGLAnnotationContainerView_Private.h"
@@ -564,6 +565,8 @@ public:
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground) {
         [MGLMapboxEvents pushEvent:MGLEventTypeMapLoad withAttributes:@{}];
     }
+
+    [MGLSDKUpdateChecker checkForUpdates];
 }
 
 - (mbgl::Size)size
