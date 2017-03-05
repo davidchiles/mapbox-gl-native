@@ -4668,6 +4668,22 @@ public:
     return MGLFeaturesFromMBGLFeatures(features);
 }
 
+- (NS_ARRAY_OF(id <MGLFeature>) *)featuresWithSourceIdentifier:(NSString *)sourceIdentifier sourceLayerIdentifier:(nullable NSString *)sourceLayerIdentifier predicate:(nullable NSPredicate *)predicate {
+    
+    mbgl::optional<std::string> optionalSourceLayerID;
+    if (sourceLayerIdentifier) {
+        optionalSourceLayerID = std::string(sourceLayerIdentifier.UTF8String);
+    }
+    
+    mbgl::optional<mbgl::style::Filter> optionalFilter;
+    if (predicate) {
+        optionalFilter = predicate.mgl_filter;
+    }
+    
+    std::vector<mbgl::Feature> features = _mbglMap->querySourceFeatures(sourceIdentifier.UTF8String, { optionalSourceLayerID, optionalFilter });
+    return MGLFeaturesFromMBGLFeatures(features);
+}
+
 #pragma mark - Utility -
 
 - (void)animateWithDelay:(NSTimeInterval)delay animations:(void (^)(void))animations
