@@ -187,6 +187,7 @@ public:
     std::vector<Feature> queryRenderedFeatures(const ScreenBox&,        const RenderedQueryOptions& options = {});
 
     AnnotationIDs queryPointAnnotations(const ScreenBox&);
+    std::vector<Feature> querySourceFeatures(const std::string&,        const SourceQueryOptions& options = {});
 
     // Memory
     void setSourceTileCacheSize(size_t);

@@ -25,6 +25,7 @@ class FileSource;
 class TransformState;
 class RenderTile;
 class RenderedQueryOptions;
+class SourceQueryOptions;
 
 namespace algorithm {
 class ClipIDGenerator;
@@ -69,6 +70,8 @@ public:
     queryRenderedFeatures(const ScreenLineString& geometry,
                           const TransformState& transformState,
                           const RenderedQueryOptions& options) const;
+
+    std::vector<Feature> querySourceFeatures(const SourceQueryOptions&);
 
     void setCacheSize(size_t);
     void onLowMemory();

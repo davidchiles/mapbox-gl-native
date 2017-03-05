@@ -46,6 +46,10 @@ public:
             const TransformState&,
             const RenderedQueryOptions& options) override;
 
+    void querySourceFeatures(
+        std::vector<Feature>& result,
+        const SourceQueryOptions&) override;
+
     void cancel() override;
 
     class LayoutResult {

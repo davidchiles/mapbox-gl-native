@@ -35,4 +35,8 @@ void Tile::queryRenderedFeatures(
         const TransformState&,
         const RenderedQueryOptions&) {}
 
+void Tile::querySourceFeatures(
+        std::vector<Feature>&,
+        const SourceQueryOptions&) {}
+
 } // namespace mbgl

@@ -254,6 +254,27 @@ std::unordered_map<std::string, std::vector<Feature>> Source::Impl::queryRendere
     return result;
 }
 
+std::vector<Feature> Source::Impl::querySourceFeatures(const SourceQueryOptions& options) {
+
+    // Only VectorSource and GeoJSON source supported
+    if (type != SourceType::GeoJSON && type != SourceType::Vector) {
+       throw std::runtime_error("Source type not supported");
+    }
+
+    // sourceLayer is required VectorSource
+    if (type == SourceType::Vector && !options.sourceLayer) {
+        throw std::runtime_error("options.sourceLayer is required");
+    }
+
+    std::vector<Feature> result;
+
+    for (const auto& pair : tiles) {
+        pair.second->querySourceFeatures(result, options);
+    }
+
+    return result;
+}
+
 void Source::Impl::setCacheSize(size_t size) {
     cache.setSize(size);
 }

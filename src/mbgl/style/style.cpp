@@ -544,6 +544,16 @@ std::vector<Feature> Style::queryRenderedFeatures(const ScreenLineString& geomet
     return result;
 }
 
+std::vector<Feature> Style::querySourceFeatures(const std::string& sourceID, const SourceQueryOptions& options) const {
+    Source* source = getSource(sourceID);
+
+    if (!source) {
+        return {};
+    }
+
+    return source->baseImpl->querySourceFeatures(options);
+}
+
 float Style::getQueryRadius() const {
     float additionalRadius = 0;
     for (auto& layer : layers) {

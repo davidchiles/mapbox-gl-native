@@ -30,6 +30,7 @@ class LineAtlas;
 class RenderData;
 class TransformState;
 class RenderedQueryOptions;
+class SourceQueryOptions;
 
 namespace style {
 
@@ -100,6 +101,9 @@ public:
     std::vector<Feature> queryRenderedFeatures(const ScreenLineString& geometry,
                                                const TransformState& transformState,
                                                const RenderedQueryOptions& options) const;
+
+    std::vector<Feature> querySourceFeatures(const std::string&,
+                                             const SourceQueryOptions&) const;
 
     float getQueryRadius() const;
 

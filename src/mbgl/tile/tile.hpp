@@ -22,6 +22,7 @@ class TransformState;
 class TileObserver;
 class PlacementConfig;
 class RenderedQueryOptions;
+class SourceQueryOptions;
 
 namespace style {
 class Layer;
@@ -57,6 +58,10 @@ public:
             const GeometryCoordinates& queryGeometry,
             const TransformState&,
             const RenderedQueryOptions& options);
+
+    virtual void querySourceFeatures(
+            std::vector<Feature>& result,
+            const SourceQueryOptions&);
 
     void setTriedOptional();
 

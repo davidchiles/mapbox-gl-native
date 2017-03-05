@@ -852,6 +852,13 @@ AnnotationIDs Map::queryPointAnnotations(const ScreenBox& box) {
     return ids;
 }
 
+std::vector<Feature> Map::querySourceFeatures(const std::string& sourceID,
+                                              const SourceQueryOptions& options) {
+    if (!impl->style) return {};
+
+    return impl->style->querySourceFeatures(sourceID, options);
+}
+
 #pragma mark - Style API
 
 std::vector<style::Source*> Map::getSources() {
