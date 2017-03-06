@@ -767,6 +767,29 @@ jni::Array<jni::Object<Feature>> NativeMapView::queryRenderedFeaturesForBox(JNIE
     return *convert<jni::Array<jni::Object<Feature>>, std::vector<mbgl::Feature>>(env, map->queryRenderedFeatures(box, { layers, toFilter(env, jfilter) }));
 }
 
+jni::Array<jni::Object<Feature>> NativeMapView::querySourceFeatures(JNIEnv& env, jni::String jSourceId,
+                                                                    jni::String jSourceLayer, jni::Array<jni::Object<>> jfilter) {
+    using namespace mbgl::android::conversion;
+    using namespace mapbox::geometry;
+
+    assert(jSourceId != nullptr);
+
+    mbgl::optional<std::string> sourceLayerId;
+    if (jSourceLayer) {
+        sourceLayerId = jni::Make<std::string>(env, jSourceLayer);
+    }
+
+    auto sourceId = jni::Make<std::string>(env, jSourceId);
+    try {
+        auto filter = toFilter(env, jfilter);
+        auto features = map->querySourceFeatures(sourceId, { sourceLayerId,  filter });
+        return *convert<jni::Array<jni::Object<Feature>>, std::vector<mbgl::Feature>>(env, features);
+    } catch (const std::runtime_error& error) {
+        Log::Error(Event::JNI, "Could not query features for source %s: %s", sourceId.c_str(), error.what());
+        return jni::Array<jni::Object<Feature>>::New(env, 0, Feature::javaClass);
+    }
+}
+
 jni::Array<jni::Object<Layer>> NativeMapView::getLayers(JNIEnv& env) {
 
     // Get the core layers
@@ -1488,6 +1511,7 @@ void NativeMapView::registerNative(jni::JNIEnv& env) {
             METHOD(&NativeMapView::queryPointAnnotations, "nativeQueryPointAnnotations"),
             METHOD(&NativeMapView::queryRenderedFeaturesForPoint, "nativeQueryRenderedFeaturesForPoint"),
             METHOD(&NativeMapView::queryRenderedFeaturesForBox, "nativeQueryRenderedFeaturesForBox"),
+            METHOD(&NativeMapView::querySourceFeatures, "nativeQuerySourceFeatures"),
             METHOD(&NativeMapView::getLayers, "nativeGetLayers"),
             METHOD(&NativeMapView::getLayer, "nativeGetLayer"),
             METHOD(&NativeMapView::addLayer, "nativeAddLayer"),

@@ -205,6 +205,9 @@ public:
                                                                  jni::jfloat, jni::Array<jni::String>,
                                                                  jni::Array<jni::Object<>> jfilter);
 
+    jni::Array<jni::Object<Feature>> querySourceFeatures(JNIEnv&, jni::String, jni::String,
+                                                                 jni::Array<jni::Object<>> jfilter);
+
     jni::Array<jni::Object<Layer>> getLayers(JNIEnv&);
 
     jni::Object<Layer> getLayer(JNIEnv&, jni::String);

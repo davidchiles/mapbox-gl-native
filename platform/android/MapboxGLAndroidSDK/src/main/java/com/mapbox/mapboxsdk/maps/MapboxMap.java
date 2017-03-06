@@ -39,7 +39,9 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.widgets.MyLocationViewSettings;
 import com.mapbox.mapboxsdk.style.layers.Filter;
 import com.mapbox.mapboxsdk.style.layers.Layer;
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.mapboxsdk.style.sources.Source;
+import com.mapbox.mapboxsdk.style.sources.VectorSource;
 import com.mapbox.services.commons.geojson.Feature;
 
 import java.lang.reflect.ParameterizedType;
@@ -1722,6 +1724,55 @@ public final class MapboxMap {
                                              @Nullable Filter.Statement filter,
                                              @Nullable String... layerIds) {
     return nativeMapView.queryRenderedFeatures(coordinates, layerIds, filter);
+  }
+
+  /**
+   * Queries a {@link Source} for features. Can be either a {@link VectorSource} or
+   * a {@link GeoJsonSource}.
+   *
+   * @param sourceId      the source identifier for a {@link VectorSource} or
+   *                      a {@link GeoJsonSource}
+   * @param sourceLayerId the source layer identifier. Required for {@link VectorSource},
+   *                      ignored for {@link GeoJsonSource}
+   * @param filter        an optional filter statement to filter the returned Features
+   * @return the features
+   */
+  @UiThread
+  @NonNull
+  public List<Feature> querySourceFeatures(@NonNull String sourceId,
+                                           @Nullable String sourceLayerId,
+                                           @Nullable Filter.Statement filter) {
+    return nativeMapView.querySourceFeatures(sourceId, sourceLayerId, filter);
+  }
+
+  /**
+   * Queries a {@link VectorSource} for features.
+   *
+   * @param source        the source to query. Must be part of the current style
+   * @param sourceLayerId the source layer identifier. Required for {@link VectorSource},
+   * @param filter        an optional filter statement to filter the returned Features
+   * @return the features
+   */
+  @UiThread
+  @NonNull
+  public List<Feature> querySourceFeatures(@NonNull VectorSource source,
+                                           @NonNull String sourceLayerId,
+                                           @Nullable Filter.Statement filter) {
+    return nativeMapView.querySourceFeatures(source.getId(), sourceLayerId, filter);
+  }
+
+  /**
+   * Queries a {@link GeoJsonSource} for features.
+   *
+   * @param source the source to query. Must be part of the current style
+   * @param filter an optional filter statement to filter the returned Features
+   * @return the features
+   */
+  @UiThread
+  @NonNull
+  public List<Feature> querySourceFeatures(@NonNull GeoJsonSource source,
+                                           @Nullable Filter.Statement filter) {
+    return nativeMapView.querySourceFeatures(source.getId(), null, filter);
   }
 
   //

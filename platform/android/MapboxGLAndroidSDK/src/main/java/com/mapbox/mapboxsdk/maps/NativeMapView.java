@@ -910,6 +910,21 @@ final class NativeMapView {
     return features != null ? Arrays.asList(features) : new ArrayList<Feature>();
   }
 
+  @NonNull
+  public List<Feature> querySourceFeatures(@NonNull String sourceId,
+                                           @Nullable String sourceLayer,
+                                           @Nullable Filter.Statement filter) {
+    if (isDestroyedOn("querySourceFeatures")) {
+      return new ArrayList<>();
+    }
+
+    Feature[] features = nativeQuerySourceFeatures(
+      sourceId,
+      sourceLayer,
+      filter != null ? filter.toArray() : null);
+    return features != null ? Arrays.asList(features) : new ArrayList<Feature>();
+  }
+
   public void scheduleTakeSnapshot() {
     if (isDestroyedOn("scheduleTakeSnapshot")) {
       return;
@@ -1152,6 +1167,10 @@ final class NativeMapView {
                                                              float right, float bottom,
                                                              String[] layerIds,
                                                              Object[] filter);
+
+  private native Feature[] nativeQuerySourceFeatures(String sourceId,
+                                                     String sourceLayerId,
+                                                     Object[] filter);
 
   int getWidth() {
     if (isDestroyedOn("")) {
