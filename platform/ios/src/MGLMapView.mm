@@ -348,6 +348,14 @@ public:
     return self;
 }
 
++ (void)initialize
+{
+    if (self == [MGLMapView self])
+    {
+        [MGLSDKUpdateChecker checkForUpdates];
+    }
+}
+
 + (NS_SET_OF(NSString *) *)keyPathsForValuesAffectingStyle
 {
     return [NSSet setWithObject:@"styleURL"];
@@ -565,8 +573,6 @@ public:
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground) {
         [MGLMapboxEvents pushEvent:MGLEventTypeMapLoad withAttributes:@{}];
     }
-
-    [MGLSDKUpdateChecker checkForUpdates];
 }
 
 - (mbgl::Size)size
