@@ -1,12 +1,14 @@
 #import "MGLSDKUpdateChecker.h"
 #import "NSBundle+MGLAdditions.h"
+#import "NSProcessInfo+MGLAdditions.h"
 
 @implementation MGLSDKUpdateChecker
 
 + (void)checkForUpdates {
 #if TARGET_IPHONE_SIMULATOR
     // Abort if running in a playground.
-    if ([[NSBundle mainBundle].bundleIdentifier hasPrefix:@"com.apple.dt.playground."]) {
+    if ([[NSBundle mainBundle].bundleIdentifier hasPrefix:@"com.apple.dt.playground."] ||
+        NSProcessInfo.processInfo.mgl_isInterfaceBuilderDesignablesAgent) {
         return;
     }
 
