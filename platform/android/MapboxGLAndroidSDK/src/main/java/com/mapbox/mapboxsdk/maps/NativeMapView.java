@@ -381,14 +381,14 @@ final class NativeMapView {
     if (isDestroyedOn("setZoom")) {
       return;
     }
-    setZoom(zoom, 0);
+    setZoom(zoom, -1, -1, 0);
   }
 
-  public void setZoom(double zoom, long duration) {
+  public void setZoom(double zoom, double cx, double cy, long duration) {
     if (isDestroyedOn("setZoom")) {
       return;
     }
-    nativeSetZoom(zoom, duration);
+    nativeSetZoom(zoom, cx == -1 ? cx : cx / pixelRatio, cy == -1 ? cy : cy / pixelRatio, duration);
   }
 
   public double getZoom() {
@@ -1014,7 +1014,7 @@ final class NativeMapView {
 
   private native double nativeGetScale();
 
-  private native void nativeSetZoom(double zoom, long duration);
+  private native void nativeSetZoom(double zoom, double cx, double cy, long duration);
 
   private native double nativeGetZoom();
 
